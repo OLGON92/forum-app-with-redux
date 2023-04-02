@@ -9,7 +9,10 @@ function NewPostForm(props) {
     event.preventDefault();
     props.onNewPostCreation({
       name: event.target.name.value,
-      date: event.target.date.value,
+      postContent: event.target.postContent.value,
+      date: null,
+      likesGained: parseInt(0),
+      dislikesGained: parseInt(0),
       id: v4()
     });
   }

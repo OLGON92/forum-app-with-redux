@@ -8,8 +8,10 @@ export default function EditPostForm(props) {
   function handleEditPostFormSubmission(event) {
     event.preventDefault();
     props.onEditPost({
-      name: event.target.post.value,
-      date: event.target.date.value, 
+      name: event.target.name.value,
+      postContent: event.target.postContent.value,
+      likesGained: post.likesGained,
+      dislikesGained: post.dislikesGained,
       id: post.id
     });
   }

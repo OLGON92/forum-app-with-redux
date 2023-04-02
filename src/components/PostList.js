@@ -10,8 +10,13 @@ function PostList(props){
       {props.postList.map((post) =>
         <Post 
         whenPostClicked={ props.onPostSelection }
+        whenLikeClicked={ props.onLikePost }
+        whenDislikeClicked= { props.onDislikePost }
         name = {post.name}
         date = {post.date}
+        postContent = {post.postContent}
+        likesGained = {post.likesGained}
+        dislikesGained = {post.dislikesGained}
         id = {post.id}
         key = {post.id} />
       )}

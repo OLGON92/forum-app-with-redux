@@ -9,10 +9,13 @@ export default function ReusableForm(props) {
         <input 
           type="text"
           name="name" 
-          placeholder="Post Name" />
-        <input
-          type='date'
-          name='date' />
+          placeholder="Post Name" 
+          required />
+         <textarea 
+          name="postContent" 
+          placeholder="Share your thoughts" 
+          required />
+        
         <button type="submit">{props.buttonText}</button>
       </form>
     </React.Fragment>

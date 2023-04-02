@@ -66,6 +66,31 @@ class ForumControl extends React.Component {
     });
   }
 
+  handleDislikePost = (id) => {
+    const newPostList = this.state.mainPostList.map(post => {
+      if(post.id === id) {
+        const newDislikes = post.dislikesGained - 1;
+        return { ...post, dislikesGained: newDislikes};
+      }
+      return post;
+    });
+    this.setState({
+      mainPostList: newPostList
+    });
+  }
+
+  handleLikePost = (id) => {
+    const newPostList = this.state.mainPostList.map(post => {
+      if(post.id === id) {
+        const newLikes = post.likesGained + 1;
+        return { ...post, likesGained: newLikes};
+      }
+      return post;
+    });
+    this.setState({
+      mainPostList: newPostList
+    });
+  }
     render() {
       let currentlyVisibleState = null;
       let buttonText = null;
@@ -95,6 +120,8 @@ class ForumControl extends React.Component {
             <PostList
             postList={this.state.mainPostList}
             onPostSelection={this.handleChangingSelectedPost}
+            onLikePost = { this.handleLikePost}
+            onDislikePost = { this.handleDislikePost}
             />
             buttonText = " Add Post";
         }
