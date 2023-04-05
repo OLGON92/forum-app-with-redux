@@ -3,6 +3,8 @@ import NewPostForm from './NewPostForm';
 import PostList from "./PostList";
 import PostDetail from "./PostDetail";
 import EditPostForm from './EditPostForm';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 
 class ForumControl extends React.Component {
@@ -10,7 +12,6 @@ class ForumControl extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      mainPostList: [],
       formVisibleOnPage: false,
       selectedPost: null,
       editing: false
@@ -18,12 +19,20 @@ class ForumControl extends React.Component {
   }
 
   handleAddingNewPostToList = (newPost) => {
-    const newMainPostList = this.state.mainPostList.concat(newPost);
-    this.setState({mainPostList: newMainPostList, formVisibleOnPage: false}, () => {
-      console.log(this.state.mainPostList); // check if the new post is added to the list
-    });
+    const { dispatch } = this.props;
+    const { name, date, postContent, likesGained, dislikesGained, id } = newPost;
+    const action = {
+      type: "ADD_POST",
+      name: name,
+      date: date,
+      postContent: postContent,
+      likesGained: likesGained,
+      dislikesGained: dislikesGained,
+      id: id
+    }
+    dispatch(action);
+    this.setState({formVisibleOnPage: false});
   }
-
   handleClick = () => {
     if(this.state.selectedPost != null ){
       this.setState({
@@ -39,16 +48,18 @@ class ForumControl extends React.Component {
   }
 
   handleChangingSelectedPost = (id) => {
-    const selectedPost = this.state.mainPostList.filter(post => post.id === id)[0];
+    const selectedPost = this.props.mainPostList[id];
     this.setState({ selectedPost: selectedPost});
   }
 
   handleDeletingPost = (id) => {
-    const newMainPostList = this.state.mainPostList.filter(post => post.id !== id);
-    this.setState({
-      mainPostList: newMainPostList,
-      selectedPost: null
-    });
+    const { dispatch } = this.props;
+    const action = {
+      type: 'DELETE_POST',
+      id: id
+    }
+    dispatch(action);
+    this.setState({selectedPost: null});
   }
 
   handleEditClick = () => {
@@ -56,12 +67,20 @@ class ForumControl extends React.Component {
   };
 
   handleEditingPostInList = (postToEdit) => {
-    const editedMainPostList = this.state.mainPostList
-      .filter(post => post.id !== this.state.selectedPost.id)
-      .concat(postToEdit);
+    const { dispatch } = this.props;
+    const { name, date, postContent, likesGained, dislikesGained, id } = postToEdit;
+    const action = {
+      type: "ADD_POST",
+      name: name,
+      date: date,
+      postContent: postContent,
+      likesGained: likesGained,
+      dislikesGained: dislikesGained,
+      id: id
+    }
+    dispatch(action);
     this.setState({
-      mainPostList: editedMainPostList,
-      editing: false, 
+      editing: false,
       selectedPost: null
     });
   }
@@ -118,7 +137,7 @@ class ForumControl extends React.Component {
         } else {
           currentlyVisibleState =
             <PostList
-            postList={this.state.mainPostList}
+            postList={this.props.mainPostList}
             onPostSelection={this.handleChangingSelectedPost}
             onLikePost = { this.handleLikePost}
             onDislikePost = { this.handleDislikePost}
@@ -136,4 +155,17 @@ class ForumControl extends React.Component {
     } 
   }
 
+  ForumControl.propTypes = {
+    mainPostList: PropTypes.object,
+  };
+  
+  const mapStateToProps = (state) => {
+    return{
+      mainPostList: state
+    }
+  }
+
+  ForumControl = connect(mapStateToProps)(ForumControl);
+
+            
 export default ForumControl;

@@ -3,11 +3,11 @@ import Post from "./Post";
 import PropTypes from "prop-types";
 
 function PostList(props){
-  console.log(props.postList);
+  console.log(props);
   return (
     <React.Fragment>
       <hr />
-      {props.postList.map((post) =>
+      {Object.values(props.postList).map((post) =>
         <Post 
         whenPostClicked={ props.onPostSelection }
         whenLikeClicked={ props.onLikePost }
@@ -25,7 +25,7 @@ function PostList(props){
 }
 
 PostList.propTypes = {
-  postList: PropTypes.array,
+  postList: PropTypes.object,
   onPostSelection: PropTypes.func
 };
 

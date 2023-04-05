@@ -15,7 +15,7 @@ function PostDetail(props){
       <button onClick={props.onClickingEdit}>Update Post</button>
       <button onClick={() => props.onClickingDelete(post.id)}>Delete Post</button>
     </React.Fragment>
-);
+  );
 }
 
 PostDetail.propTypes = {

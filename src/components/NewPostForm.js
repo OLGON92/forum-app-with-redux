@@ -7,6 +7,7 @@ function NewPostForm(props) {
   
   function handleNewPostFormSubmission(event){
     event.preventDefault();
+    console.log("new post button pressed");
     props.onNewPostCreation({
       name: event.target.name.value,
       postContent: event.target.postContent.value,
@@ -23,7 +24,7 @@ function NewPostForm(props) {
       formSubmissionHandler={handleNewPostFormSubmission}
       buttonText="Add New Post"
       />
-       </React.Fragment>
+      </React.Fragment>
   );
 }
 
